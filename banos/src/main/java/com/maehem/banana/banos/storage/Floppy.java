@@ -13,28 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.maehem.banana.hardware.m6000;
+package com.maehem.banana.banos.storage;
 
-import com.maehem.banana.banos.storage.Floppy;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  *
  * @author mark
  */
-public class FloppyDrawer extends Pane {
+public class Floppy extends ImageView {
+    private final Image image = new Image(
+        getClass().getResourceAsStream("/other/green-floppy-disk.png"),
+        160, 160, false, false
+    );
 
-    public FloppyDrawer(Computer computer, double width, double height) {
-        //setWidth(width);
-        //setHeight(height);
-        
-        Floppy systemFloppy = new Floppy();
-        systemFloppy.setX(Math.random()*width/4);
-        systemFloppy.setY(Math.random()*height/4);
-        systemFloppy.setOnMouseClicked((t) -> {
-            computer.mediaInserted(systemFloppy);
-        });
-        getChildren().add(systemFloppy);
+    public Floppy() {
+        setImage(image);
+        setRotate((Math.random()-0.5)*90);
     }
     
     

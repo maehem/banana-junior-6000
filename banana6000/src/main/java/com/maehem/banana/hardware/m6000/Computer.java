@@ -15,7 +15,7 @@
  */
 package com.maehem.banana.hardware.m6000;
 
-import com.maehem.banana.storage.Floppy;
+import com.maehem.banana.banos.storage.Floppy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
