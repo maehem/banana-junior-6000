@@ -15,10 +15,12 @@
  */
 package com.maehem.banana.banos.system;
 
+import java.util.ArrayList;
 import static javafx.animation.Animation.INDEFINITE;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -28,7 +30,7 @@ import javafx.util.Duration;
  *
  * @author mark
  */
-public class SystemPane extends StackPane {
+public class SystemPane {
 
     public enum State {
         INSERT_DISK, HAPPY, SAD
@@ -45,46 +47,54 @@ public class SystemPane extends StackPane {
             getClass().getResourceAsStream("/glyphs/floppy-question.png"),
             32, 32, false, false
     ));
-    private final ImageView happyGlyph = new ImageView(new Image(
+    private final ImageView computerBaseGlyph = new ImageView(new Image(
+            getClass().getResourceAsStream("/glyphs/computer-base.png"),
+            32, 32, false, false
+    ));
+    private final ImageView computerHappyGlyph = new ImageView(new Image(
             getClass().getResourceAsStream("/glyphs/computer-happy.png"),
             32, 32, false, false
     ));
-    private final ImageView sadGlyph = new ImageView(new Image(
+    private final ImageView computerSadGlyph = new ImageView(new Image(
             getClass().getResourceAsStream("/glyphs/computer-sad.png"),
             32, 32, false, false
     ));
-
-    public SystemPane() {
-
-        getChildren().addAll(
-                backdrop,
-                floppyGlyph, floppyQGlyph,
-                happyGlyph, sadGlyph
-        );
+    
+    private final StackPane videoOut = new StackPane();
+            
+    public SystemPane() {        
+        videoOut.getChildren().addAll(backdrop,floppyGlyph,floppyQGlyph,computerBaseGlyph, computerHappyGlyph,computerSadGlyph);
         setState(State.INSERT_DISK);
         
         setupFloppyAnimation();
     }
 
     public void update() {
-        setOpacity(1.0);
+        videoOut.setOpacity(1.0);
         backdrop.update();
     }
 
     public final void setState(State s) {
         this.currentState = s;
 
-        backdrop.toFront();
+        floppyGlyph.setVisible(false);
+        floppyQGlyph.setVisible(false);
+        computerBaseGlyph.setVisible(false);
+        computerHappyGlyph.setVisible(false);
+        computerSadGlyph.setVisible(false);
+        
         switch (s) {
             case INSERT_DISK:
-                floppyGlyph.toFront();
-                floppyQGlyph.toFront();
+                floppyGlyph.setVisible(true);
+                floppyQGlyph.setVisible(true);
                 break;
             case HAPPY:
-                happyGlyph.toFront();
+                computerBaseGlyph.setVisible(true);
+                computerHappyGlyph.setVisible(true);
                 break;
             case SAD:
-                sadGlyph.toFront();
+                computerBaseGlyph.setVisible(true);
+                computerSadGlyph.setVisible(true);
                 break;
         }
     }
@@ -96,5 +106,36 @@ public class SystemPane extends StackPane {
         timeline.getKeyFrames().add(new KeyFrame(Duration.millis(1000),
                 new KeyValue(floppyQGlyph.opacityProperty(), 0.0)));
         timeline.play();
+    }
+    
+    public State getState() {
+        return currentState;
+    }
+    
+    /**
+     * @return the videoOut
+     */
+    public StackPane getVideoOut() {
+        return videoOut;
+    }
+    
+    public void show() {
+        videoOut.setOpacity(1.0);
+    }
+    
+    public void hide() {
+        videoOut.setOpacity(0.0);
+    }
+    
+    public void loadVolume( String path ) {
+        setState(State.HAPPY);
+    }
+    
+    public boolean ejectVolume() {
+        return true;
+    }
+    
+    public boolean hasVolume() {
+        return false;
     }
 }

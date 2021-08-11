@@ -71,7 +71,7 @@ public class Computer extends Application {
     
     private final StackPane glass = new StackPane();
     private final BorderPane chassisPane = new BorderPane();
-    private SystemPane systemPane;
+    private SystemPane system;
     private Stage floppyDrawerPopup = new Stage();
 
     @Override
@@ -95,13 +95,15 @@ public class Computer extends Application {
         chassisPane.setBottom(bottomArea);
         chassisPane.setCenter(glass);
         
-        systemPane = new SystemPane();
-        systemPane.setOpacity(0);
-        glass.getChildren().addAll(centerImageView,systemPane);
+        system = new SystemPane();
+        system.hide();
+        glass.getChildren().addAll(centerImageView,system.getVideoOut());
         
         stage.show();
-        systemPane.update();
-        System.out.println("System Pane size: " + systemPane.getWidth() + "x" + systemPane.getHeight());
+        system.update();
+        System.out.println("System Pane size: " + 
+                system.getVideoOut().getWidth() + 
+                "x" + system.getVideoOut().getHeight());
         
         
     }
@@ -137,6 +139,7 @@ public class Computer extends Application {
     public void mediaInserted(Floppy f) {
         Logger.getGlobal().log(Level.WARNING, "Floppy Inserted.");
         floppyDrawerPopup.hide();
+        system.loadVolume(f.toString());
     }
     
     public static void main(String[] args) {
