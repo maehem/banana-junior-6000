@@ -30,7 +30,6 @@ public class Floppy extends ImageView {
 
     public Floppy() {
         setImage(image);
-        setRotate((Math.random()-0.5)*90);
     }
     
     

@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.maehem.banana.bootdisk;
+package banosvolume;
 
 import com.maehem.banana.banos.storage.Floppy;
+import javafx.scene.image.Image;
 
 /**
  *
  * @author mark
  */
-public class BootDisk extends Floppy {
+public class Volume extends Floppy {
 
-    public BootDisk() {
+    public Volume() {
+        setImage(new Image(getClass().getResourceAsStream("/media.png")));
+        System.out.println("Boot Disk Loaded.");
     }
     
 }

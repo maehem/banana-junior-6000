@@ -15,12 +15,17 @@
  */
 package com.maehem.banana.banos.system;
 
-import java.util.ArrayList;
+import com.maehem.banana.banos.storage.VolumeLoader;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static javafx.animation.Animation.INDEFINITE;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -129,6 +134,29 @@ public class SystemPane {
     
     public void loadVolume( String path ) {
         setState(State.HAPPY);
+        try {
+            VolumeLoader volumeLoader = new VolumeLoader(
+                    new URL("file:///Users/mark/Documents/BanOS/bootdisk-1.0-SNAPSHOT.jar"),
+                    "file:///Users/mark/Documents/BanOS/bootdisk-1.0-SNAPSHOT.jar"
+            );
+            volumeLoader.loadClass("Volume");
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(SystemPane.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean ejectVolume() {
